@@ -1,7 +1,7 @@
 {
     "name": "boxspaced/cms-search-module",
     "require": {
-
+        "boxspaced/cms-core-module": "dev-master"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -13,5 +13,11 @@
     "config": {
         "bin-dir": "bin/",
         "process-timeout": 1200
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/boxspaced/cms-core-module"
+        }
+    ]
 }

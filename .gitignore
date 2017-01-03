@@ -1,3 +1,7 @@
 /nbproject/private/
 /nbproject/
 /vendor/
+/bin/generate-factory-for-class
+/bin/templatemap_generator.php
+/bin/generate-deps-for-config-factory
+/composer.lock

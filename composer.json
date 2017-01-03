@@ -18,6 +18,14 @@
         {
             "type": "vcs",
             "url": "https://github.com/boxspaced/cms-core-module"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/boxspaced/entity-manager-module"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/boxspaced/entity-manager"
         }
     ]
 }

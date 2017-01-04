@@ -3,6 +3,7 @@ namespace Search;
 
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
+use Zend\Permissions\Acl\Acl;
 
 return [
     'search' => [
@@ -27,6 +28,21 @@ return [
                 ],
             ],
             // LIFO
+        ],
+    ],
+    'acl' => [
+        'resources' => [
+            [
+                'id' => Controller\SearchController::class,
+            ],
+        ],
+        'rules' => [
+            [
+                'type' => Acl::TYPE_ALLOW,
+                'roles' => 'guest',
+                'resources' => Controller\SearchController::class,
+                'privileges' => 'simple',
+            ],
         ],
     ],
     'controllers' => [

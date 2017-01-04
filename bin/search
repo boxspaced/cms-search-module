@@ -1,0 +1,52 @@
+#!/usr/bin/env php
+<?php
+namespace Search;
+
+use Zend\Log\Logger;
+use Item\Service\ItemService;
+use Zend_Console_Getopt as Getopt;
+use Zend_Console_Getopt_Exception as GetoptException;
+use Exception;
+
+define('PREVENT_RUN', true);
+$application = require __DIR__ . '/../public/index.php';
+
+$sm = $application->getServiceManager();
+
+$log = $sm->get(Logger::class);
+$service = $sm->get(ItemService::class);
+
+try {
+
+    $options = new Getopt(
+        [
+            'index|i' => '(Re)index the site',
+        ]
+    );
+    $options->parse();
+
+    switch (true) {
+
+        case $options->getOption('index'):
+
+            $service->reindex();
+            break;
+
+        default:
+
+            echo $options->getUsageMessage();
+            exit(1);
+
+    }
+
+} catch (GetoptException $e) {
+
+    echo $e->getUsageMessage();
+    exit(1);
+
+} catch (Exception $e) {
+
+    $log->err($e);
+    echo 'An error occured, please see logs';
+    exit(1);
+}

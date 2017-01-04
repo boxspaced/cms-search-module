@@ -27,5 +27,8 @@
             "type": "vcs",
             "url": "https://github.com/boxspaced/entity-manager"
         }
+    ],
+    "bin": [
+        "bin/search"
     ]
 }

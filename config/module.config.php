@@ -1,5 +1,5 @@
 <?php
-namespace Search;
+namespace Boxspaced\CmsSearchModule;
 
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;

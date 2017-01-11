@@ -1,24 +1,24 @@
 <?php
-namespace Search\Controller;
+namespace Boxspaced\CmsSearchModule\Controller;
 
 use Exception as PhpException;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Session\Container as SessionContainer;
 use Zend\View\Model\ViewModel;
 use Zend\Log\Logger;
-use Search\Service;
+use Boxspaced\CmsSearchModule\Service;
 use Zend\Paginator;
 use Zend_Search_Lucene as Search;
 use Zend_Search_Lucene_Search_QueryParser as SearchQueryParser;
-use Account\Service\AccountService;
-use Block\Service\BlockService;
-use Core\Service\ModulePageService;
-use Item\Service\ItemService;
-use Core\Form\ModulePagePublishForm;
-use Core\Service\ModulePagePublishingOptions;
-use Core\Service\FreeBlock;
-use Core\Service\BlockSequence;
-use Core\Service\BlockSequenceBlock;
+use Boxspaced\CmsAccountModule\Service\AccountService;
+use Boxspaced\CmsBlockModule\Service\BlockService;
+use Boxspaced\CmsCoreModule\Service\ModulePageService;
+use Boxspaced\CmsItemModule\Service\ItemService;
+use Boxspaced\CmsCoreModule\Form\ModulePagePublishForm;
+use Boxspaced\CmsCoreModule\Service\ModulePagePublishingOptions;
+use Boxspaced\CmsCoreModule\Service\FreeBlock;
+use Boxspaced\CmsCoreModule\Service\BlockSequence;
+use Boxspaced\CmsCoreModule\Service\BlockSequenceBlock;
 
 class SearchController extends AbstractActionController
 {

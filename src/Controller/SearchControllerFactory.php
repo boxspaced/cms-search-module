@@ -1,15 +1,15 @@
 <?php
-namespace Search\Controller;
+namespace Boxspaced\CmsSearchModule\Controller;
 
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Interop\Container\ContainerInterface;
-use Search\Controller\SearchController;
-use Core\Service\ModulePageService;
-use Block\Service\BlockService;
-use Item\Service\ItemService;
-use Account\Service\AccountService;
+use Boxspaced\CmsSearchModule\Controller\SearchController;
+use Boxspaced\CmsCoreModule\Service\ModulePageService;
+use Boxspaced\CmsBlockModule\Service\BlockService;
+use Boxspaced\CmsItemModule\Service\ItemService;
+use Boxspaced\CmsAccountModule\Service\AccountService;
 use Zend\Log\Logger;
-use Core\Controller\AbstractControllerFactory;
+use Boxspaced\CmsCoreModule\Controller\AbstractControllerFactory;
 
 class SearchControllerFactory extends AbstractControllerFactory implements FactoryInterface
 {

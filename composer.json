@@ -7,7 +7,7 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Search\\": "src/"
+            "Boxspaced\\CmsSearchModule\\": "src/"
         }
     },
     "config": {
@@ -33,7 +33,7 @@
     ],
     "extra": {
         "zf": {
-            "module": "Search"
+            "module": "Boxspaced\\CmsSearchModule"
         }
     }
 }

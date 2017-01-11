@@ -1,5 +1,5 @@
 <?php
-namespace Search;
+namespace Boxspaced\CmsSearchModule;
 
 class Module
 {

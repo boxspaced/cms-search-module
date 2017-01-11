@@ -1,5 +1,5 @@
 <?php
-namespace Search\Controller\Plugin;
+namespace Boxspaced\CmsSearchModule\Controller\Plugin;
 
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 

@@ -1,9 +1,9 @@
 #!/usr/bin/env php
 <?php
-namespace Boxspaced\SearchModule;
+namespace Boxspaced\CmsSearchModule;
 
 use Zend\Log\Logger;
-use Boxspaced\ItemModule\Service\ItemService;
+use Boxspaced\CmsItemModule\Service\ItemService;
 use Zend_Console_Getopt as Getopt;
 use Zend_Console_Getopt_Exception as GetoptException;
 use Exception;

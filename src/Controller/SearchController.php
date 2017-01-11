@@ -211,7 +211,7 @@ class SearchController extends AbstractActionController
             $values['name'] = $itemMeta->name;
 
             $result = (new ViewModel($values))->setTemplate(sprintf(
-                'item/item/%s.phtml',
+                'cms-item-module/item/%s.phtml',
                 str_replace('_', '', $teaserTemplate->viewScript)
             ));
 

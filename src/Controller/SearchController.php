@@ -175,7 +175,7 @@ class SearchController extends AbstractActionController
                 $item = $this->itemService->getCacheControlledItem($hit->contentId);
                 $itemMeta = $this->itemService->getCacheControlledItemMeta($hit->contentId);
                 $itemType = $this->itemService->getType($itemMeta->typeId);
-                $publishingOptions = $this->itemService->getCurrentPublishingOptions($hit->contentId);
+                $itemPublishingOptions = $this->itemService->getCurrentPublishingOptions($hit->contentId);
 
             } catch (PhpException $e) {
 
@@ -185,7 +185,7 @@ class SearchController extends AbstractActionController
 
             foreach ($itemType->teaserTemplates as $template) {
 
-                if ($template->id == $publishingOptions->teaserTemplateId) {
+                if ($template->id == $itemPublishingOptions->teaserTemplateId) {
                     $teaserTemplate = $template;
                     break;
                 }

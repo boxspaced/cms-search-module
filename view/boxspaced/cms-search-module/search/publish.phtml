@@ -15,16 +15,14 @@ endif;
         <div class="row">
             <div class="col-md-12">
 
-                <h1>Publish:
-                <?php echo $this->escapeHtml($this->moduleName) ?> - <i><?php echo $this->escapeHtml($this->pageName) ?></i></h1>
-
-                <div class="info">
-                    <img src="/images/required_star.png" alt="Required"> indicates required field
-                </div>
+                <h1>Publish
+                <?php echo $this->escapeHtml($this->moduleName) ?> <small><?php echo $this->escapeHtml($this->pageName) ?></small></h1>
 
                 <?php
                 $form = $this->form;
-                $form->setAttribute('name', 'main')->prepare();
+                $form->setAttribute('name', 'main');
+                $form->setAttribute('class', 'form-horizontal');
+                $form->prepare();
                 ?>
 
                 <?php echo $this->form()->openTag($form) ?>
@@ -40,85 +38,115 @@ endif;
                     ?>
 
                     <?php if ($freeBlocks || $blockSequences) : ?>
-                    <div class="white-box"><!-- Start fieldset -->
-                        <div class="white-box-rounded-corner-top"><div></div></div>
-                        <div class="white-box-content">
-                            <div class="white-box-title">Blocks</div>
+                    <fieldset>
+                        <legend>Blocks</legend>
 
-                            <?php foreach ($freeBlocks as $freeBlock) : ?>
-                            <div class="form-element">
-                                <label class="lined-up"><?php echo $freeBlock->getLabel() ?></label>
-                                <div class="form-inputs line-up">
-                                    <table class="table" style="background-color: #ffffff;">
-                                        <thead>
-                                            <tr>
-                                                <th>Block</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <?php echo $this->formElement($freeBlock->get('id')); ?>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="clear"></div>
+                        <?php foreach ($freeBlocks as $freeBlock) : ?>
+                        <div class="form-element">
+                            <label class="lined-up"><?php echo $freeBlock->getLabel() ?></label>
+                            <div class="form-inputs line-up">
+                                <table class="table" style="background-color: #ffffff;">
+                                    <thead>
+                                        <tr>
+                                            <th>Block</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <?php echo $this->formElement($freeBlock->get('id')); ?>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <?php endforeach; ?>
+                            <div class="clear"></div>
+                        </div>
+                        <?php endforeach; ?>
 
-                            <?php foreach ($blockSequences as $blockSequence) : ?>
+                        <?php foreach ($blockSequences as $blockSequence) : ?>
 
-                            <?php
+                        <?php
 
-                            $idOptions = [];
+                        $idOptions = [];
 
-                            foreach ($form->getBlockValueOptions() as $blockTypeName => $options) {
-                                foreach ($options['options'] as $value => $label) {
-                                    $idOptions[$value] = $blockTypeName . ' ' . $label;
-                                }
+                        foreach ($form->getBlockValueOptions() as $blockTypeName => $options) {
+                            foreach ($options['options'] as $value => $label) {
+                                $idOptions[$value] = $blockTypeName . ' ' . $label;
                             }
+                        }
 
-                            $idNameTpl = $blockSequence->getName() . '[blocks][#][id]';
-                            $orderByNameTpl = $blockSequence->getName() . '[blocks][#][orderBy]';
-                            $numCurrentBlocksName = $blockSequence->getName() . '[numCurrentBlocks]';
-                            $numNewBlocksName = $blockSequence->getName() . '[numNewBlocks]';
-                            ?>
+                        $idNameTpl = $blockSequence->getName() . '[blocks][#][id]';
+                        $orderByNameTpl = $blockSequence->getName() . '[blocks][#][orderBy]';
+                        $numCurrentBlocksName = $blockSequence->getName() . '[numCurrentBlocks]';
+                        $numNewBlocksName = $blockSequence->getName() . '[numNewBlocks]';
+                        ?>
 
-                            <div class="form-element">
-                                <label class="lined-up"><?php echo $blockSequence->getLabel() ?></label>
-                                <div class="form-inputs line-up">
-                                    <table class="table" style="background-color: #ffffff;" id="<?php echo $this->adminFormElement()->nameToId($blockSequence->getName()) . '-en'; ?>">
-                                        <thead>
-                                            <tr>
-                                                <th>Block</th>
-                                                <th colspan="3">Actions</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                    </table>
+                        <div class="form-element">
+                            <label class="lined-up"><?php echo $blockSequence->getLabel() ?></label>
+                            <div class="form-inputs line-up">
+                                <table class="table" style="background-color: #ffffff;" id="<?php echo $this->adminFormElement()->nameToId($blockSequence->getName()) . '-en'; ?>">
+                                    <thead>
+                                        <tr>
+                                            <th>Block</th>
+                                            <th colspan="3">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
 
-                                    <script type="text/javascript">
+                                <script type="text/javascript">
 
-                                        <?php foreach ($blockSequence->get('blocks') as $sequenceBlock) : ?>
+                                    <?php foreach ($blockSequence->get('blocks') as $sequenceBlock) : ?>
 
-                                        addRow(
-                                        'saved',
+                                    addRow(
+                                    'saved',
+                                    '<?php echo $this->adminFormElement()->nameToId($blockSequence->getName()) . '-en'; ?>',
+                                    [
+                                        '<?php echo $orderByNameTpl; ?>',
+                                        '<?php echo $this->escapeJs($sequenceBlock->get('orderBy')->getValue()); ?>'
+                                    ],
+                                    [
+                                        [
+                                            'createBlockIdSelect',
+                                            '<?php echo $idNameTpl; ?>',
+                                            '<?php echo $this->escapeJs($sequenceBlock->get('id')->getValue()); ?>',
+                                            [['', '']
+                                            <?php foreach ($idOptions as $value => $label) : ?>
+                                            ,['<?php echo $this->escapeJs($value); ?>', '<?php echo $this->escapeJs($label); ?>']
+                                            <?php endforeach; ?>],
+                                            false
+                                        ]
+                                    ],
+                                    '<?php echo $this->adminFormElement()->nameToId($numCurrentBlocksName); ?>',
+                                    '<?php echo $this->adminFormElement()->nameToId($numNewBlocksName); ?>',
+                                    'en',
+                                    'en',
+                                    ['en']);
+
+                                    <?php endforeach; ?>
+
+                                    sortTable('<?php echo $this->adminFormElement()->nameToId($blockSequence->getName()) . '-en'; ?>', 0, 0, 'numeric', 'ASC');
+                                </script>
+
+                                <p><a class="link" href="javascript:void(0)" onclick="addBlankRow(
                                         '<?php echo $this->adminFormElement()->nameToId($blockSequence->getName()) . '-en'; ?>',
+                                        20,
                                         [
                                             '<?php echo $orderByNameTpl; ?>',
-                                            '<?php echo $this->escapeJs($sequenceBlock->get('orderBy')->getValue()); ?>'
+                                            ''
                                         ],
                                         [
                                             [
                                                 'createBlockIdSelect',
                                                 '<?php echo $idNameTpl; ?>',
-                                                '<?php echo $this->escapeJs($sequenceBlock->get('id')->getValue()); ?>',
-                                                [['', '']
-                                                <?php foreach ($idOptions as $value => $label) : ?>
-                                                ,['<?php echo $this->escapeJs($value); ?>', '<?php echo $this->escapeJs($label); ?>']
-                                                <?php endforeach; ?>],
+                                                '',
+                                                [
+                                                    ['', '']
+                                                    <?php foreach ($idOptions as $value => $label) : ?>
+                                                    ,['<?php echo $this->escapeJs($value); ?>', '<?php echo $this->escapeJs($label); ?>']
+                                                    <?php endforeach; ?>
+                                                ],
                                                 false
                                             ]
                                         ],
@@ -126,72 +154,35 @@ endif;
                                         '<?php echo $this->adminFormElement()->nameToId($numNewBlocksName); ?>',
                                         'en',
                                         'en',
-                                        ['en']);
+                                        ['en']);">Add block</a></p>
 
-                                        <?php endforeach; ?>
+                                <input type="hidden" name="<?php echo $numCurrentBlocksName; ?>" value="<?php echo count($blockSequence->get('blocks')); ?>" id="<?php echo $this->adminFormElement()->nameToId($numCurrentBlocksName); ?>">
+                                <input type="hidden" name="<?php echo $numNewBlocksName; ?>" value="0" id="<?php echo $this->adminFormElement()->nameToId($numNewBlocksName); ?>">
 
-                                        sortTable('<?php echo $this->adminFormElement()->nameToId($blockSequence->getName()) . '-en'; ?>', 0, 0, 'numeric', 'ASC');
-                                    </script>
-
-                                    <p><a class="link" href="javascript:void(0)" onclick="addBlankRow(
-                                            '<?php echo $this->adminFormElement()->nameToId($blockSequence->getName()) . '-en'; ?>',
-                                            20,
-                                            [
-                                                '<?php echo $orderByNameTpl; ?>',
-                                                ''
-                                            ],
-                                            [
-                                                [
-                                                    'createBlockIdSelect',
-                                                    '<?php echo $idNameTpl; ?>',
-                                                    '',
-                                                    [
-                                                        ['', '']
-                                                        <?php foreach ($idOptions as $value => $label) : ?>
-                                                        ,['<?php echo $this->escapeJs($value); ?>', '<?php echo $this->escapeJs($label); ?>']
-                                                        <?php endforeach; ?>
-                                                    ],
-                                                    false
-                                                ]
-                                            ],
-                                            '<?php echo $this->adminFormElement()->nameToId($numCurrentBlocksName); ?>',
-                                            '<?php echo $this->adminFormElement()->nameToId($numNewBlocksName); ?>',
-                                            'en',
-                                            'en',
-                                            ['en']);">Add block</a></p>
-
-                                    <input type="hidden" name="<?php echo $numCurrentBlocksName; ?>" value="<?php echo count($blockSequence->get('blocks')); ?>" id="<?php echo $this->adminFormElement()->nameToId($numCurrentBlocksName); ?>">
-                                    <input type="hidden" name="<?php echo $numNewBlocksName; ?>" value="0" id="<?php echo $this->adminFormElement()->nameToId($numNewBlocksName); ?>">
-
-                                </div>
-                                <div class="clear"></div>
                             </div>
-                            <?php endforeach; ?>
-
+                            <div class="clear"></div>
                         </div>
-                    </div><!-- End fieldset -->
+                        <?php endforeach; ?>
+
+                    </fieldset>
                     <?php else : ?>
                     <p>No publishing options available for this page</p>
                     <?php endif; ?>
 
-                    <div class="submit-area">
+                    <div class="form-group">
+                        <div class="col-md-10 col-md-offset-2">
 
-                        <div class="form-element">
-                            <div class="form-inputs line-up">
-                                <?php
-                                $form->get('preview')->setAttribute('class', 'button');
-                                echo $this->formElement($form->get('preview')) ?>
-                            </div>
+                            <?php
+                            $form->get('preview')->setAttribute('class', 'btn btn-default');
+                            echo $this->formElement($form->get('preview'));
+                            ?>
+
+                            <?php
+                            $form->get('publish')->setAttribute('class', 'btn btn-primary');
+                            echo $this->formElement($form->get('publish'));
+                            ?>
+
                         </div>
-
-                        <div class="form-element">
-                            <div class="form-inputs line-up">
-                                <?php
-                                $form->get('publish')->setAttribute('class', 'button');
-                                echo $this->formElement($form->get('publish')) ?>
-                            </div>
-                        </div>
-
                     </div>
 
                 <?php echo $this->form()->closeTag() ?>

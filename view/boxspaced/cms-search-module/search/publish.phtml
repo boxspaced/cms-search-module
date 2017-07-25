@@ -42,10 +42,10 @@ endif;
                         <legend>Blocks</legend>
 
                         <?php foreach ($freeBlocks as $freeBlock) : ?>
-                        <div class="form-element">
-                            <label class="lined-up"><?php echo $freeBlock->getLabel() ?></label>
-                            <div class="form-inputs line-up">
-                                <table class="table" style="background-color: #ffffff;">
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"><?php echo $freeBlock->getLabel() ?></label>
+                            <div class="col-md-10">
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th>Block</th>
@@ -60,7 +60,6 @@ endif;
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="clear"></div>
                         </div>
                         <?php endforeach; ?>
 
@@ -80,24 +79,21 @@ endif;
                         $orderByNameTpl = $blockSequence->getName() . '[blocks][#][orderBy]';
                         $numCurrentBlocksName = $blockSequence->getName() . '[numCurrentBlocks]';
                         $numNewBlocksName = $blockSequence->getName() . '[numNewBlocks]';
+                        $tableId = $this->adminFormElement()->nameToId($blockSequence->getName()) . '-en';
                         ?>
 
-                        <div class="form-element">
-                            <label class="lined-up"><?php echo $blockSequence->getLabel() ?></label>
-                            <div class="form-inputs line-up">
-                                <table class="table" style="background-color: #ffffff;" id="<?php echo $this->adminFormElement()->nameToId($blockSequence->getName()) . '-en'; ?>">
-                                    <thead>
-                                        <tr>
-                                            <th>Block</th>
-                                            <th colspan="3">Actions</th>
-                                        </tr>
-                                    </thead>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"><?php echo $blockSequence->getLabel() ?></label>
+                            <div class="col-md-10">
+                                <table class="table table-bordered collapse" id="<?php echo $tableId; ?>">
                                     <tbody></tbody>
                                 </table>
 
                                 <script type="text/javascript">
 
                                     <?php foreach ($blockSequence->get('blocks') as $sequenceBlock) : ?>
+
+                                    $('#<?php echo $tableId; ?>').show();
 
                                     addRow(
                                     'saved',
@@ -129,7 +125,7 @@ endif;
                                     sortTable('<?php echo $this->adminFormElement()->nameToId($blockSequence->getName()) . '-en'; ?>', 0, 0, 'numeric', 'ASC');
                                 </script>
 
-                                <p><a class="link" href="javascript:void(0)" onclick="addBlankRow(
+                                <p><a class="btn btn-default" href="javascript:void(0)" onclick="$('#<?php echo $tableId; ?>').show(); addBlankRow(
                                         '<?php echo $this->adminFormElement()->nameToId($blockSequence->getName()) . '-en'; ?>',
                                         20,
                                         [
@@ -160,7 +156,6 @@ endif;
                                 <input type="hidden" name="<?php echo $numNewBlocksName; ?>" value="0" id="<?php echo $this->adminFormElement()->nameToId($numNewBlocksName); ?>">
 
                             </div>
-                            <div class="clear"></div>
                         </div>
                         <?php endforeach; ?>
 
@@ -169,21 +164,26 @@ endif;
                     <p>No publishing options available for this page</p>
                     <?php endif; ?>
 
-                    <div class="form-group">
-                        <div class="col-md-10 col-md-offset-2">
+                    <fieldset>
+                        <legend>Submit</legend>
 
-                            <?php
-                            $form->get('preview')->setAttribute('class', 'btn btn-default');
-                            echo $this->formElement($form->get('preview'));
-                            ?>
+                        <div class="form-group">
+                            <div class="col-md-10 col-md-offset-2">
 
-                            <?php
-                            $form->get('publish')->setAttribute('class', 'btn btn-primary');
-                            echo $this->formElement($form->get('publish'));
-                            ?>
+                                <?php
+                                $form->get('preview')->setAttribute('class', 'btn btn-default');
+                                echo $this->formElement($form->get('preview'));
+                                ?>
 
+                                <?php
+                                $form->get('publish')->setAttribute('class', 'btn btn-success');
+                                echo $this->formElement($form->get('publish'));
+                                ?>
+
+                            </div>
                         </div>
-                    </div>
+
+                    </fieldset>
 
                 <?php echo $this->form()->closeTag() ?>
 

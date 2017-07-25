@@ -25,7 +25,7 @@ class SearchControllerFactory extends AbstractControllerFactory implements Facto
             $container->get('config')
         );
 
-        return $this->adminNavigationWidget($controller);
+        return $this->adminNavigationWidget($controller, $container);
     }
 
 }

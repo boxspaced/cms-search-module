@@ -16,7 +16,7 @@ class SearchControllerFactory extends AbstractControllerFactory implements Facto
 
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new SearchController(
+        $controller = new SearchController(
             $container->get(ModulePageService::class),
             $container->get(BlockService::class),
             $container->get(ItemService::class),
@@ -24,6 +24,8 @@ class SearchControllerFactory extends AbstractControllerFactory implements Facto
             $container->get(Logger::class),
             $container->get('config')
         );
+
+        return $this->adminNavigationWidget($controller);
     }
 
 }

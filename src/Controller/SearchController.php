@@ -126,11 +126,6 @@ class SearchController extends AbstractActionController
 
             $publishingOptions = $this->modulePageService->getCurrentPublishingOptions($modulePageId);
 
-            $adminNavigation = $this->adminNavigationWidget();
-            if (null !== $adminNavigation) {
-                $this->layout()->addChild($adminNavigation, 'adminNavigation');
-            }
-
             $modulePageAdmin = $this->modulePageAdminWidget(
                 'search',
                 'simple',

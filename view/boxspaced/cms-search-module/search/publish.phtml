@@ -42,12 +42,7 @@ endif;
                         <legend>Blocks</legend>
 
                         <?php foreach ($freeBlocks as $freeBlock) : ?>
-                        <div class="form-group">
-                            <label class="col-md-2 control-label"><?php echo $freeBlock->getLabel() ?></label>
-                            <div class="col-md-10">
-                                <?php echo $this->adminFormElement($freeBlock->get('id')); ?>
-                            </div>
-                        </div>
+                        <?php echo $this->adminFormElement($freeBlock->get('id')); ?>
                         <?php endforeach; ?>
 
                         <?php foreach ($blockSequences as $blockSequence) : ?>

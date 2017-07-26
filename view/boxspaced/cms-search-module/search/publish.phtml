@@ -45,20 +45,7 @@ endif;
                         <div class="form-group">
                             <label class="col-md-2 control-label"><?php echo $freeBlock->getLabel() ?></label>
                             <div class="col-md-10">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Block</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <?php echo $this->formElement($freeBlock->get('id')); ?>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <?php echo $this->adminFormElement($freeBlock->get('id')); ?>
                             </div>
                         </div>
                         <?php endforeach; ?>

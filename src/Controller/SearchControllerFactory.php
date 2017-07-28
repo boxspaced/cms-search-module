@@ -9,14 +9,13 @@ use Boxspaced\CmsBlockModule\Service\BlockService;
 use Boxspaced\CmsItemModule\Service\ItemService;
 use Boxspaced\CmsAccountModule\Service\AccountService;
 use Zend\Log\Logger;
-use Boxspaced\CmsCoreModule\Controller\AbstractControllerFactory;
 
-class SearchControllerFactory extends AbstractControllerFactory implements FactoryInterface
+class SearchControllerFactory implements FactoryInterface
 {
 
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $controller = new SearchController(
+        return new SearchController(
             $container->get(ModulePageService::class),
             $container->get(BlockService::class),
             $container->get(ItemService::class),
@@ -24,8 +23,6 @@ class SearchControllerFactory extends AbstractControllerFactory implements Facto
             $container->get(Logger::class),
             $container->get('config')
         );
-
-        return $this->adminNavigationWidget($controller, $container);
     }
 
 }

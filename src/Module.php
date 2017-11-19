@@ -4,8 +4,6 @@ namespace Boxspaced\CmsSearchModule;
 class Module
 {
 
-    const VERSION = '4.0.0';
-
     /**
      * @return array
      */

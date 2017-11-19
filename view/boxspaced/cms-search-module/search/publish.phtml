@@ -1,87 +1,49 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <title></title>
-        <meta name="description" content="" />
-        <meta name="keywords" content="" />
+<?php
+if ($this->preview) :
 
-        <link rel="stylesheet" type="text/css" href="/yui/reset/reset-min.css" />
-        <link rel="stylesheet" type="text/css" href="/yui/fonts/fonts-min.css" />
-        <link rel="stylesheet" type="text/css" href="/yui/button/assets/skins/sam/button.css" />
-        <link rel="stylesheet" type="text/css" href="/yui/menu/assets/skins/sam/menu.css" />
-        <link rel="stylesheet" type="text/css" href="/yui/container/assets/skins/sam/container.css" />
+    $url = $this->url($this->moduleName, ['action' => $this->pageName], [
+        'query' => [
+            'preview' => 'publishing',
+        ],
+    ]);
 
-        <link rel="stylesheet" type="text/css" href="/css/screen.css" />
+    $this->inlineScript()->appendScript("open_preview('{$url}')");
 
-        <script type="text/javascript" src="/yui/utilities/utilities.js"></script>
-        <script type="text/javascript" src="/yui/container/container-min.js"></script>
-        <script type="text/javascript" src="/yui/menu/menu-min.js"></script>
-        <script type="text/javascript" src="/yui/button/button-min.js"></script>
+endif;
+?>
 
-        <script type="text/javascript" src="/js/buttons.js"></script>
-        <script type="text/javascript" src="/js/general.js"></script>
-        <script type="text/javascript" src="/js/dynamic_tables.js"></script>
+        <div class="row">
+            <div class="col-md-12">
 
-    </head>
-
-    <body class="yui-skin-sam" onload="<?php if ($this->preview) : ?>open_preview('/<?php echo $this->escapeHtmlAttr($this->moduleName) ?>/<?php echo $this->escapeHtmlAttr($this->pageName) ?>?preview=publishing')<?php endif; ?>">
-
-        <div id="top"><!-- Start top area -->
-
-            <div class="title">Publish:
-                <?php echo $this->escapeHtml($this->moduleName) ?> - <i><?php echo $this->escapeHtml($this->pageName) ?></i></div>
-            <?php echo $this->messages() ?>
-            <div class="info"><img src="/images/required_star.png" alt="Required"> indicates required field</div>
-
-        </div><!-- End top area -->
-
-        <?php
-        $form = $this->form;
-        $form->setAttribute('name', 'main')->prepare();
-        ?>
-
-        <?php echo $this->form()->openTag($form) ?>
-
-            <?php echo $this->adminFormElement($form->get('from')) ?>
-            <?php echo $this->adminFormElement($form->get('id')) ?>
-            <?php echo $this->adminFormElement($form->get('partial')) ?>
-            <?php echo $this->adminFormElement($form->get('token')) ?>
-
-            <div id="stage"><!-- Start stage area -->
+                <h1>Publish
+                <?php echo $this->escapeHtml($this->moduleName) ?> <small><?php echo $this->escapeHtml($this->pageName) ?></small></h1>
 
                 <?php
-                $freeBlocks = $form->get('freeBlocks')->getFieldsets();
-                $blockSequences = $form->get('blockSequences')->getFieldsets();
+                $form = $this->form;
+                $form->setAttribute('name', 'main');
+                $form->setAttribute('class', 'form-horizontal');
+                $form->prepare();
                 ?>
 
-                <?php if ($freeBlocks || $blockSequences) : ?>
-                <div class="white-box"><!-- Start fieldset -->
-                    <div class="white-box-rounded-corner-top"><div></div></div>
-                    <div class="white-box-content">
-                        <div class="white-box-title">Blocks</div>
+                <?php echo $this->form()->openTag($form) ?>
+
+                    <?php echo $this->adminFormElement($form->get('from')) ?>
+                    <?php echo $this->adminFormElement($form->get('id')) ?>
+                    <?php echo $this->adminFormElement($form->get('partial')) ?>
+                    <?php echo $this->adminFormElement($form->get('token')) ?>
+
+                    <?php
+                    $freeBlocks = $form->get('freeBlocks')->getFieldsets();
+                    $blockSequences = $form->get('blockSequences')->getFieldsets();
+                    ?>
+
+                    <?php if ($freeBlocks || $blockSequences) : ?>
+                    <fieldset>
+                        <legend>Blocks</legend>
 
                         <?php foreach ($freeBlocks as $freeBlock) : ?>
-                        <div class="form-element">
-                            <label class="lined-up"><?php echo $freeBlock->getLabel() ?></label>
-                            <div class="form-inputs line-up">
-                                <table class="table" style="background-color: #ffffff;">
-                                    <thead>
-                                        <tr>
-                                            <th>Block</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <?php echo $this->formElement($freeBlock->get('id')); ?>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="clear"></div>
-                        </div>
+                        <?php $freeBlock->get('id')->setLabel($freeBlock->getLabel()); ?>
+                        <?php echo $this->adminFormElement($freeBlock->get('id')); ?>
                         <?php endforeach; ?>
 
                         <?php foreach ($blockSequences as $blockSequence) : ?>
@@ -100,24 +62,21 @@
                         $orderByNameTpl = $blockSequence->getName() . '[blocks][#][orderBy]';
                         $numCurrentBlocksName = $blockSequence->getName() . '[numCurrentBlocks]';
                         $numNewBlocksName = $blockSequence->getName() . '[numNewBlocks]';
+                        $tableId = $this->adminFormElement()->nameToId($blockSequence->getName()) . '-en';
                         ?>
 
-                        <div class="form-element">
-                            <label class="lined-up"><?php echo $blockSequence->getLabel() ?></label>
-                            <div class="form-inputs line-up">
-                                <table class="table" style="background-color: #ffffff;" id="<?php echo $this->adminFormElement()->nameToId($blockSequence->getName()) . '-en'; ?>">
-                                    <thead>
-                                        <tr>
-                                            <th>Block</th>
-                                            <th colspan="3">Actions</th>
-                                        </tr>
-                                    </thead>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label"><?php echo $blockSequence->getLabel() ?></label>
+                            <div class="col-md-10">
+                                <table class="table table-bordered collapse" id="<?php echo $tableId; ?>">
                                     <tbody></tbody>
                                 </table>
 
                                 <script type="text/javascript">
 
                                     <?php foreach ($blockSequence->get('blocks') as $sequenceBlock) : ?>
+
+                                    $('#<?php echo $tableId; ?>').show();
 
                                     addRow(
                                     'saved',
@@ -149,7 +108,7 @@
                                     sortTable('<?php echo $this->adminFormElement()->nameToId($blockSequence->getName()) . '-en'; ?>', 0, 0, 'numeric', 'ASC');
                                 </script>
 
-                                <p><a class="link" href="javascript:void(0)" onclick="addBlankRow(
+                                <p><a class="btn btn-default" href="javascript:void(0)" onclick="$('#<?php echo $tableId; ?>').show(); addBlankRow(
                                         '<?php echo $this->adminFormElement()->nameToId($blockSequence->getName()) . '-en'; ?>',
                                         20,
                                         [
@@ -180,38 +139,36 @@
                                 <input type="hidden" name="<?php echo $numNewBlocksName; ?>" value="0" id="<?php echo $this->adminFormElement()->nameToId($numNewBlocksName); ?>">
 
                             </div>
-                            <div class="clear"></div>
                         </div>
                         <?php endforeach; ?>
 
-                    </div>
-                </div><!-- End fieldset -->
-                <?php else : ?>
-                <p>No publishing options available for this page</p>
-                <?php endif; ?>
+                    </fieldset>
+                    <?php else : ?>
+                    <p>No publishing options available for this page</p>
+                    <?php endif; ?>
 
-            </div><!-- End stage area -->
+                    <fieldset>
+                        <legend>Submit</legend>
 
-            <div class="submit-area">
+                        <div class="form-group">
+                            <div class="col-md-10 col-md-offset-2">
 
-                <div class="form-element">
-                    <div class="form-inputs line-up">
-                        <?php
-                        $form->get('preview')->setAttribute('class', 'button');
-                        echo $this->formElement($form->get('preview')) ?>
-                    </div>
-                </div>
+                                <?php
+                                $form->get('preview')->setAttribute('class', 'btn btn-default');
+                                echo $this->formElement($form->get('preview'));
+                                ?>
 
-                <div class="form-element">
-                    <div class="form-inputs line-up">
-                        <?php
-                        $form->get('publish')->setAttribute('class', 'button');
-                        echo $this->formElement($form->get('publish')) ?>
-                    </div>
-                </div>
+                                <?php
+                                $form->get('publish')->setAttribute('class', 'btn btn-success');
+                                echo $this->formElement($form->get('publish'));
+                                ?>
+
+                            </div>
+                        </div>
+
+                    </fieldset>
+
+                <?php echo $this->form()->closeTag() ?>
 
             </div>
-
-        <?php echo $this->form()->closeTag() ?>
-    </body>
-</html>
+        </div>

@@ -100,7 +100,7 @@ class SearchController extends AbstractActionController
         if ($this->config['core']['has_ssl']) {
             $this->forceHttps();
         }
-        $this->view->setTerminal(true);
+        $this->layout('layout/admin');
     }
 
     /**
@@ -125,11 +125,6 @@ class SearchController extends AbstractActionController
         } else {
 
             $publishingOptions = $this->modulePageService->getCurrentPublishingOptions($modulePageId);
-
-            $adminNavigation = $this->adminNavigationWidget(true);
-            if (null !== $adminNavigation) {
-                $this->layout()->addChild($adminNavigation, 'adminNavigation');
-            }
 
             $modulePageAdmin = $this->modulePageAdminWidget(
                 'search',
